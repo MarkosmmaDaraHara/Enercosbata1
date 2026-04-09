@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ENERCOS</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(180deg, #05060a, #0b0f2a);
+    color: white;
+}
+
+header {
+    padding: 20px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 10px 20px;
+    background: #111;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    background: #121426;
+    border-radius: 20px;
+    padding: 15px;
+    text-align: center;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px;
+    background: purple;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+}
+
+.cart-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: purple;
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
+.cart {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background: #111;
+    padding: 20px;
+    display: none;
+}
+</style>
+</head>
+
+<body>
+
+<header>ENERCOS</header>
+
+<div class="cart-btn" onclick="toggleCart()">Cart</div>
+
+<div class="tabs">
+    <div class="tab" onclick="show('all')">All</div>
+    <div class="tab" onclick="show('enerchic')">Enerchic</div>
+    <div class="tab" onclick="show('enerchoco')">Enerchoco</div>
+</div>
+
+<div class="products" id="products"></div>
+
+<div class="cart" id="cart">
+    <h2>Cart</h2>
+    <div id="cartItems"></div>
+    <button onclick="checkout()">Checkout</button>
+</div>
+
+<script>
+let products = [
+    {name:"Coffee", price:3.99, img:"https://via.placeholder.com/150", category:"enerchic"},
+    {name:"Cherry", price:3.79, img:"https://via.placeholder.com/150", category:"enerchic"},
+    {name:"Chocolate", price:4.19, img:"https://via.placeholder.com/150", category:"enerchic"},
+
+    {name:"Mint Coconut", price:4.90, img:"https://via.placeholder.com/150", category:"enerchoco"},
+    {name:"Dark Chili", price:5.20, img:"https://via.placeholder.com/150", category:"enerchoco"},
+    {name:"Pistachio Honey", price:5.50, img:"https://via.placeholder.com/150", category:"enerchoco"}
+];
+
+let cart = [];
+
+function render(list){
+    let container = document.getElementById("products");
+    container.innerHTML = "";
+
+    list.forEach(p => {
+        container.innerHTML += `
+        <div class="card">
+            <img src="${p.img}">
+            <h3>${p.name}</h3>
+            <p>${p.price}$</p>
+            <button onclick="add('${p.name}')">Add</button>
+        </div>`;
+    });
+}
+
+function show(cat){
+    if(cat === "all") render(products);
+    else render(products.filter(p => p.category === cat));
+}
+
+function add(name){
+    cart.push(name);
+    updateCart();
+}
+
+function updateCart(){
+    let el = document.getElementById("cartItems");
+    el.innerHTML = cart.map(i => `<p>${i}</p>`).join("");
+}
+
+function toggleCart(){
+    let c = document.getElementById("cart");
+    c.style.display = c.style.display === "block" ? "none" : "block";
+}
+
+function checkout(){
+    alert("Order sent!");
+}
+
+render(products);
+</script>
+
+</body>
+</html>
